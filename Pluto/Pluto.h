@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <objc/runtime.h>
 
 #pragma mark - 固定尺寸
 /** 屏幕Bounds */
@@ -23,6 +24,7 @@ extern CGFloat PltTabBarHeight;
 /* 状态栏高度 */
 extern CGFloat PltStatusBarHeight;
 
+
 #pragma mark - 沙盒路径
 /** 沙盒路径 */
 extern NSString *PltHomePath;
@@ -35,6 +37,7 @@ extern NSString *PltCachePath;
 /** Temp文件夹路径 */
 extern NSString *PltTempPath;
 
+
 #pragma mark - Bundle
 /** bundle路径 */
 extern NSString *PltMainBundlePath;
@@ -42,6 +45,7 @@ extern NSString *PltMainBundlePath;
 extern NSString *PltResourcePath;
 /** executable路径 */
 extern NSString *PltExecutablePath;
+
 
 #pragma mark - 应用信息
 /** BundleID */
@@ -51,11 +55,13 @@ extern NSString *PltAppVersion;
 /** AppBuileVersion */
 extern NSString *PltAppBuildVersion;
 
+
 #pragma mark - 系统信息
 /** 系统信息  */
 extern NSString *PltSystemVersion;
 /** 系统版本号 */
 extern float PltSystemVersionNumber;
+
 
 #pragma mark - 系统机型
 /** 是否是6P/ 6sP */
@@ -68,9 +74,38 @@ extern BOOL PltiPhone5;
 extern BOOL PltiPhone4s;
 
 
+#pragma mark - 自定义输出
+/**
+ *  自定义输出
+ */
+void pltLog(id obj);
+/**
+ *  自定义正确输出
+ */
+void pltRight(id obj);
+/**
+ *  自定义警告错误
+ */
+void pltWarning(id obj);
+/**
+ *  自定义错误输出
+ */
+void pltError(id obj);
+
+
 #pragma mark - Pluto
 @interface Pluto : NSObject
+/**
+ *  设置自定义是否启动，默认不启动
+ */
++ (void)pltLogEnable:(BOOL)enable;
+@end
 
+
+#pragma mark - NSString
+@interface NSString (Pluto)
+/** 字符串对应的URL */
+@property (nonatomic, readonly) NSURL *url;
 @end
 
 
@@ -92,3 +127,11 @@ UIColor *PltColorWithRGBA(CGFloat red, CGFloat green, CGFloat blue, CGFloat alph
  */
 UIColor *PltColorWithRGB(CGFloat red, CGFloat green, CGFloat blue);
 
+
+#pragma mark - UITextView
+@interface UITextView (Pluto)
+/** 占位符 */
+@property (nonatomic, strong) NSString *pltPlaceholder;
+/** 占位符文字颜色 */
+@property (nonatomic, strong) UIColor *pltPlaceholderColor;
+@end
