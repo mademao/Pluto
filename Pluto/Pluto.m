@@ -55,7 +55,7 @@ void pltLog(id obj)
     if (!PltLogEnable) {
         return;
     }
-    printf("%s\n", [[obj description] UTF8String]);
+    printf("%s\n", [[NSString stringWithFormat:@"☑️%@\n", [obj description]] UTF8String]);
 }
 void pltRight(id obj)
 {
@@ -84,7 +84,7 @@ void pltTime(id obj)
         return;
     }
     NSDate *date = [NSDate date];
-    printf("%s\n", [[NSString stringWithFormat:@"⏰%@\n%@\n", [date descriptionWithLocale:[NSLocale localeWithLocaleIdentifier:@"zh"]], [obj description]] UTF8String]);
+    printf("%s\n", [[NSString stringWithFormat:@"⏰%@⏰\t%@\n", [date descriptionWithLocale:[NSLocale localeWithLocaleIdentifier:@"zh"]], [obj description]] UTF8String]);
 }
 
 
