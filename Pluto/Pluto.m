@@ -49,7 +49,7 @@ BOOL PltiPhone4s;
 
 #pragma mark - 自定义输出
 /** 自定义输出是否启动，默认不启动 */
-BOOL PltLogEnable = NO;
+BOOL PltLogEnable = pltDefaultLogEnable;
 void pltLog(id obj)
 {
     if (!PltLogEnable) {
@@ -388,7 +388,7 @@ UIFont *plt_systemFontOfSize(CGFloat size)
 
 
 #pragma mark - UICollectionViewCell
-@implementation UICollectionViewCell
+@implementation UICollectionViewCell (Pluto)
 + (NSString *)plt_cellReuseIdentifier
 {
     return NSStringFromClass([self class]);

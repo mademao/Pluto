@@ -7,7 +7,6 @@
 //
 
 #import "MDMRootVC.h"
-#import "Pluto.h"
 
 @interface MDMRootVC ()
 

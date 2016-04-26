@@ -11,6 +11,13 @@
 #import <objc/runtime.h>
 #import <AdSupport/ASIdentifierManager.h>
 
+#pragma mark - 默认输出权限
+#if DEBUG
+#define pltDefaultLogEnable (YES)
+#else
+#define pltDefaultLogEnable (NO)
+#endif
+
 #pragma mark - 固定尺寸
 /** 屏幕Bounds */
 extern CGRect  PltScreenBounds;
@@ -104,7 +111,7 @@ void pltError(id obj);
 #pragma mark - Pluto
 @interface Pluto : NSObject
 /**
- *  设置自定义是否启动，默认不启动
+ *  设置自定义是否启动，默认Debug开启，Release关闭
  */
 + (void)pltLogEnable:(BOOL)enable;
 @end
