@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
+#import <AdSupport/ASIdentifierManager.h>
 
 #pragma mark - 固定尺寸
 /** 屏幕Bounds */
@@ -54,6 +55,13 @@ extern NSString *PltAppBundleID;
 extern NSString *PltAppVersion;
 /** AppBuileVersion */
 extern NSString *PltAppBuildVersion;
+
+
+#pragma mark - 唯一表示
+/** Vindor标示符 */
+extern NSString *PltIDFV;
+/** 广告标示符 */
+extern NSString *PltIDFA;
 
 
 #pragma mark - 系统信息
@@ -128,10 +136,118 @@ UIColor *PltColorWithRGBA(CGFloat red, CGFloat green, CGFloat blue, CGFloat alph
 UIColor *PltColorWithRGB(CGFloat red, CGFloat green, CGFloat blue);
 
 
+#pragma mark - UIFont
+/**
+ *  创建系统字体的便利构造器
+
+ */
+UIFont *plt_systemFontOfSize(CGFloat size);
+
+
+#pragma mark - UIView
+@interface UIView (Pluto)
+/**
+ *  设置父视图
+ */
+- (instancetype)plt_addToSuperview:(UIView *)superview;
+/**
+ *  添加子视图组
+ */
+- (instancetype)plt_addSubViews:(NSArray<UIView *> *)subViews;
+/**
+ *  设定圆角半径
+ */
+- (void)plt_cornerRadius:(CGFloat)radius;
+/**
+ *  同时设定 圆角半径 描边宽度 描边颜色
+ */
+- (void)plt_cornerRadius:(CGFloat)radius borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor;
+@end
+
+
+#pragma mark - UIButton
+@interface UIButton (Pluto)
+/** 正常情况下的文字 */
+@property (nonatomic, strong) NSString *plt_normalTitle;
+/** 正常情况下文字颜色 */
+@property (nonatomic, strong) UIColor *plt_normalTitleColor;
+/** 文字字体 */
+@property (nonatomic, strong) UIFont *plt_titleFont;
+/**
+ *  快速创建一个自定义button
+ */
++ (UIButton *)plt_customButton;
+/**
+ *  快速设置button在TouchUpInSide的事件
+ */
+- (instancetype)plt_addTouchUpInSideTarget:(id)target action:(SEL)action;
+@end
+
+
+#pragma mark - UIScrollView
+@interface UIScrollView (Pluto)
+/** 顶部内偏量 */
+@property (nonatomic, assign) CGFloat plt_insetTop;
+/** 底部内偏量 */
+@property (nonatomic, assign) CGFloat plt_insetBottom;
+/** 指示器顶部内偏量 */
+@property (nonatomic, assign) CGFloat plt_indicatorTop;
+/** 指示器底部内偏量 */
+@property (nonatomic, assign) CGFloat plt_indicatorBottom;
+/** 横向偏移量 */
+@property (nonatomic, assign) CGFloat plt_offsetX;
+/** 纵向偏移量 */
+@property (nonatomic, assign) CGFloat plt_offsetY;
+@end
+
+
+#pragma mark - UITableView
+@interface UITableView (Pluto)
+/**
+ *  根据类名注册cell
+ */
+- (void)plt_registerCellWithClass:(Class)cellClass;
+/**
+ *  根据nib注册cell
+ */
+- (void)plt_registerCellWithNibName:(NSString *)nibName;
+@end
+
+
+#pragma mark - UITableViewCell
+@interface UITableViewCell (Pluto)
+/**
+ *  获取cell的重用标志
+ */
++ (NSString *)plt_cellReuseIdentifier;
+@end
+/**
+ *  自定义快速搭建Default类型cell
+ */
+@interface PltTableViewCell : UITableViewCell
+@end
+
+
+#pragma mark - UICollectionViewCell
+@interface UICollectionViewCell (Pluto)
+/**
+ *  获取cell的重用标志
+ */
++ (NSString *)plt_cellReuseIdentifier;
+@end
+
+
 #pragma mark - UITextView
 @interface UITextView (Pluto)
 /** 占位符 */
 @property (nonatomic, strong) NSString *pltPlaceholder;
 /** 占位符文字颜色 */
 @property (nonatomic, strong) UIColor *pltPlaceholderColor;
+@end
+
+
+#pragma mark - UIImage
+@interface UIImage (Pluto)
+/** 生成带渲染色的图片 */
+- (UIImage *)plt_tintedImageWithColor:(UIColor *)color alpha:(CGFloat)alpha;
 @end

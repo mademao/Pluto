@@ -33,6 +33,10 @@ NSString *PltAppBundleID;
 NSString *PltAppVersion;
 NSString *PltAppBuildVersion;
 
+#pragma mark - 唯一表示
+NSString *PltIDFV;
+NSString *PltIDFA;
+
 #pragma mark - 系统信息
 NSString *PltSystemVersion;
 float PltSystemVersionNumber;
@@ -102,6 +106,9 @@ void pltError(id obj)
     PltAppVersion                   = infoDictionary[@"CFBundleShortVersionString"];
     PltAppBuildVersion              = infoDictionary[@"CFBundleVersion"];
     
+    PltIDFV = [[UIDevice currentDevice].identifierForVendor UUIDString];
+    PltIDFA = [[ASIdentifierManager sharedManager].advertisingIdentifier UUIDString];
+    
     PltSystemVersion                = [UIDevice currentDevice].systemVersion;
     PltSystemVersionNumber          = PltSystemVersion.floatValue;
     
@@ -126,8 +133,8 @@ void pltError(id obj)
 @end
 
 
+#pragma mark - NSString
 @implementation NSString (Pluto)
-
 - (NSURL *)url
 {
     return [NSURL URLWithString:self];
@@ -181,6 +188,214 @@ UIColor *PltColorWithRGB(CGFloat red, CGFloat green, CGFloat blue)
 }
 
 
+#pragma mark - UIFont
+UIFont *plt_systemFontOfSize(CGFloat size)
+{
+    return [UIFont systemFontOfSize:size];
+}
+
+
+#pragma mark - UIView
+@implementation UIView (Pluto)
+- (instancetype)plt_addToSuperview:(UIView *)superview
+{
+    if (self.superview) {
+        [self removeFromSuperview];
+    }
+    if (superview) {
+        [superview addSubview:self];
+    } else {
+        pltWarning(@"父视图不允许为空");
+    }
+    return self;
+}
+- (instancetype)plt_addSubViews:(NSArray<UIView *> *)subViews
+{
+    if (subViews) {
+        for (UIView *view in subViews) {
+            [self addSubview:view];
+        }
+    } else {
+        pltWarning(@"子视图组不允许为空");
+    }
+    return self;
+}
+- (void)plt_cornerRadius:(CGFloat)radius
+{
+    self.layer.masksToBounds = YES;
+    self.layer.cornerRadius = radius;
+}
+- (void)plt_cornerRadius:(CGFloat)radius borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor
+{
+    self.layer.cornerRadius = radius;
+    self.layer.masksToBounds = true;
+    self.layer.borderWidth = borderWidth;
+    if (borderColor) {
+        self.layer.borderColor = borderColor.CGColor;
+    }
+}
+@end
+
+
+#pragma mark - UIButton
+@implementation UIButton (Pluto)
+- (NSString *)plt_normalTitle
+{
+    return [self titleForState:UIControlStateNormal];
+}
+- (void)setPlt_normalTitle:(NSString *)plt_normalTitle
+{
+    if (plt_normalTitle) {
+        [self setTitle:plt_normalTitle forState:UIControlStateNormal];
+    } else {
+        pltWarning(@"文字不允许为空");
+    }
+}
+- (UIColor *)plt_normalTitleColor
+{
+    return [self titleColorForState:UIControlStateNormal];
+}
+- (void)setPlt_normalTitleColor:(UIColor *)plt_normalTitleColor
+{
+    if (plt_normalTitleColor) {
+        [self setTitleColor:plt_normalTitleColor forState:UIControlStateNormal];
+    } else {
+        pltWarning(@"文字颜色不允许为空");
+    }
+}
+- (UIFont *)plt_titleFont
+{
+    return self.titleLabel.font;
+}
+- (void)setPlt_titleFont:(UIFont *)plt_titleFont
+{
+    if (plt_titleFont) {
+        self.titleLabel.font = plt_titleFont;
+    } else {
+        pltWarning(@"文字字体不允许为空");
+    }
+}
++ (UIButton *)plt_customButton
+{
+    return [UIButton buttonWithType:UIButtonTypeCustom];
+}
+- (instancetype)plt_addTouchUpInSideTarget:(id)target action:(SEL)action
+{
+    if (target || [target respondsToSelector:action]) {
+        [self addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
+    } else {
+        pltWarning(@"target-action 不允许为空");
+    }
+    return self;
+}
+@end
+
+
+#pragma mark - UIScrollView
+@implementation UIScrollView (Pluto)
+- (CGFloat)plt_insetTop
+{
+    return self.contentInset.top;
+}
+- (void)setPlt_insetTop:(CGFloat)plt_insetTop
+{
+    UIEdgeInsets insets = self.contentInset;
+    self.contentInset = UIEdgeInsetsMake(plt_insetTop, insets.left, insets.bottom, insets.right);
+}
+- (CGFloat)plt_insetBottom
+{
+    return self.contentInset.bottom;
+}
+- (void)setPlt_insetBottom:(CGFloat)plt_insetBottom
+{
+    UIEdgeInsets insets = self.contentInset;
+    self.contentInset = UIEdgeInsetsMake(insets.top, insets.left, plt_insetBottom, insets.right);
+}
+- (CGFloat)plt_indicatorTop
+{
+    return self.scrollIndicatorInsets.top;
+}
+- (void)setPlt_indicatorTop:(CGFloat)plt_indicatorTop
+{
+    UIEdgeInsets inset = self.scrollIndicatorInsets;
+    self.scrollIndicatorInsets = UIEdgeInsetsMake(plt_indicatorTop, inset.left, inset.bottom, inset.right);
+}
+- (CGFloat)plt_indicatorBottom
+{
+    return self.scrollIndicatorInsets.bottom;
+}
+- (void)setPlt_indicatorBottom:(CGFloat)plt_indicatorBottom
+{
+    UIEdgeInsets inset = self.scrollIndicatorInsets;
+    self.scrollIndicatorInsets = UIEdgeInsetsMake(inset.top, inset.left, plt_indicatorBottom, inset.right);
+}
+- (CGFloat)plt_offsetX
+{
+    return self.contentOffset.x;
+}
+- (void)setPlt_offsetX:(CGFloat)plt_offsetX
+{
+    CGPoint offset = self.contentOffset;
+    self.contentOffset = CGPointMake(plt_offsetX, offset.y);
+}
+- (CGFloat)plt_offsetY
+{
+    return self.contentOffset.y;
+}
+- (void)setPlt_offsetY:(CGFloat)plt_offsetY
+{
+    CGPoint offset = self.contentOffset;
+    self.contentOffset = CGPointMake(offset.x, plt_offsetY);
+}
+@end
+
+
+#pragma mark - UITableView
+@implementation UITableView (Pluto)
+- (void)plt_registerCellWithClass:(Class)cellClass
+{
+    if (cellClass) {
+        [self registerClass:cellClass forCellReuseIdentifier:NSStringFromClass(cellClass)];
+    } else {
+        pltWarning(@"类型不允许为空");
+    }
+}
+- (void)plt_registerCellWithNibName:(NSString *)nibName
+{
+    UINib *nib = [UINib nibWithNibName:nibName bundle:nil];
+    if (nib) {
+        [self registerNib:nib forCellReuseIdentifier:nibName];
+    } else {
+        pltWarning(@"nib不存在");
+    }
+}
+@end
+
+
+#pragma mark - UITableViewCell
+@implementation UITableViewCell (Pluto)
++ (NSString *)plt_cellReuseIdentifier
+{
+    return NSStringFromClass([self class]);
+}
+@end
+@implementation PltTableViewCell
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    return [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
+}
+@end
+
+
+#pragma mark - UICollectionViewCell
+@implementation UICollectionViewCell
++ (NSString *)plt_cellReuseIdentifier
+{
+    return NSStringFromClass([self class]);
+}
+@end
+
+
 #pragma mark - UITextView
 @implementation UITextView (Pluto)
 
@@ -216,7 +431,7 @@ static char *pltPlaceholderTextViewKey;
         [self sendSubviewToBack:self.pltPlaceholderTextView];
         [self addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
         [self addObserver:self forKeyPath:@"font" options:NSKeyValueObservingOptionNew context:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChange) name:UITextViewTextDidChangeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(plt_textChange) name:UITextViewTextDidChangeNotification object:nil];
     }
     self.pltPlaceholderTextView.text = placeholder;
 }
@@ -249,7 +464,7 @@ static char *pltPlaceholderTextViewKey;
 /**
  *  设置何时显示placeholder
  */
-- (void)textChange
+- (void)plt_textChange
 {
     if ([self.text isEqualToString:@""]) {
         self.pltPlaceholderTextView.hidden = NO;
@@ -282,4 +497,37 @@ static char *pltPlaceholderTextViewKey;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextViewTextDidChangeNotification object:nil];
 }
 
+@end
+
+
+#pragma mark - UIImage
+@implementation UIImage (Pluto)
+- (UIImage *)plt_tintedImageWithColor:(UIColor *)color alpha:(CGFloat)alpha
+{
+    if (self) {
+        CGRect imageRect = CGRectMake(0.0f, 0.0f, self.size.width, self.size.height);
+
+        UIGraphicsBeginImageContextWithOptions(imageRect.size, NO, self.scale);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        
+        [self drawInRect:imageRect];
+        
+        CGContextSetFillColorWithColor(context, [color CGColor]);
+        CGContextSetAlpha(context, alpha);
+        CGContextSetBlendMode(context, kCGBlendModeSourceAtop);
+        CGContextFillRect(context, imageRect);
+        
+        CGImageRef imageRef = CGBitmapContextCreateImage(context);
+        UIImage *darkImage = [UIImage imageWithCGImage:imageRef
+                                                 scale:self.scale
+                                           orientation:self.imageOrientation];
+        CGImageRelease(imageRef);
+        
+        UIGraphicsEndImageContext();
+        
+        return darkImage;
+    } else {
+        return nil;
+    }
+}
 @end
