@@ -106,6 +106,10 @@ void pltWarning(id obj);
  *  自定义错误输出
  */
 void pltError(id obj);
+/**
+ *  自定义时间输出
+ */
+void pltTime(id obj);
 
 
 #pragma mark - Pluto
@@ -181,14 +185,14 @@ UIFont *plt_systemFontOfSize(CGFloat size);
 /** 文字字体 */
 @property (nonatomic, strong) UIFont *plt_titleFont;
 /**
- *  快速创建一个自定义button
- */
-+ (UIButton *)plt_customButton;
-/**
  *  快速设置button在TouchUpInSide的事件
  */
 - (instancetype)plt_addTouchUpInSideTarget:(id)target action:(SEL)action;
 @end
+/**
+ *  快速创建一个自定义button
+ */
+UIButton *plt_customButton();
 
 
 #pragma mark - UIScrollView
@@ -253,8 +257,26 @@ UIFont *plt_systemFontOfSize(CGFloat size);
 @end
 
 
+#pragma mark - UINavigationController
+@interface UINavigationController (Pluto)
+/**
+ *  设置Bar颜色，渲染色和阴影色
+ */
+- (void)plt_setBarUseColor:(UIColor *)color tintColor:(UIColor *)tintColor titleFont:(UIFont *)titleFont shadowColor:(UIColor *)shadowColor;
+@end
+
+
 #pragma mark - UIImage
 @interface UIImage (Pluto)
-/** 生成带渲染色的图片 */
+/**
+ *  生成带渲染色的图片
+ */
 - (UIImage *)plt_tintedImageWithColor:(UIColor *)color alpha:(CGFloat)alpha;
 @end
+
+
+#pragma mark - NSTimer
+/**
+ *  创建一个循环执行的CommonModes类型的Timer
+ */
+NSTimer *plt_createCommonModesTimer(NSTimeInterval time, id target, SEL selector, id userInfo);

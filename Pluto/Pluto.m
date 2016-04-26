@@ -62,22 +62,31 @@ void pltRight(id obj)
     if (!PltLogEnable) {
         return;
     }
-    printf("%s\n", [[NSString stringWithFormat:@"✅%@", [obj description]] UTF8String]);
+    printf("%s\n", [[NSString stringWithFormat:@"✅%@\n", [obj description]] UTF8String]);
 }
 void pltWarning(id obj)
 {
     if (!PltLogEnable) {
         return;
     }
-    printf("%s\n", [[NSString stringWithFormat:@"⚠️%@", [obj description]] UTF8String]);
+    printf("%s\n", [[NSString stringWithFormat:@"⚠️%@\n", [obj description]] UTF8String]);
 }
 void pltError(id obj)
 {
     if (!PltLogEnable) {
         return;
     }
-    printf("%s\n", [[NSString stringWithFormat:@"🙅%@", [obj description]] UTF8String]);
+    printf("%s\n", [[NSString stringWithFormat:@"🙅%@\n", [obj description]] UTF8String]);
 }
+void pltTime(id obj)
+{
+    if (!PltLogEnable) {
+        return;
+    }
+    NSDate *date = [NSDate date];
+    printf("%s\n", [[NSString stringWithFormat:@"⏰%@\n%@\n", [date descriptionWithLocale:[NSLocale localeWithLocaleIdentifier:@"zh"]], [obj description]] UTF8String]);
+}
+
 
 @implementation Pluto
 
@@ -112,6 +121,10 @@ void pltError(id obj)
     PltSystemVersion                = [UIDevice currentDevice].systemVersion;
     PltSystemVersionNumber          = PltSystemVersion.floatValue;
     
+    PltiPhone6P = PltScreenWidth    == 414.;
+    PltiPhone6  = PltScreenWidth    == 375.;
+    PltiPhone5  = PltScreenHeight   == 568.;
+    PltiPhone4s = PltScreenHeight   == 480.;
 }
 
 + (void)pltLogEnable:(BOOL)enable
@@ -275,10 +288,6 @@ UIFont *plt_systemFontOfSize(CGFloat size)
         pltWarning(@"文字字体不允许为空");
     }
 }
-+ (UIButton *)plt_customButton
-{
-    return [UIButton buttonWithType:UIButtonTypeCustom];
-}
 - (instancetype)plt_addTouchUpInSideTarget:(id)target action:(SEL)action
 {
     if (target || [target respondsToSelector:action]) {
@@ -289,7 +298,10 @@ UIFont *plt_systemFontOfSize(CGFloat size)
     return self;
 }
 @end
-
+UIButton *plt_customButton()
+{
+    return [UIButton buttonWithType:UIButtonTypeCustom];
+}
 
 #pragma mark - UIScrollView
 @implementation UIScrollView (Pluto)
@@ -500,6 +512,53 @@ static char *pltPlaceholderTextViewKey;
 @end
 
 
+#pragma mark - UINavigationController
+@implementation UINavigationController (Pluto)
+- (void)plt_setBarUseColor:(UIColor *)color tintColor:(UIColor *)tintColor titleFont:(UIFont *)titleFont shadowColor:(UIColor *)shadowColor
+{
+    UIImage *barImage = nil;
+    if (color) {
+        UIGraphicsBeginImageContext(CGSizeMake(1, 1));
+        CGContextRef ctx = UIGraphicsGetCurrentContext();
+        CGContextAddRect(ctx, CGRectMake(0, 0, 1, 1));
+        CGContextSetFillColorWithColor(ctx, color.CGColor);
+        CGContextFillPath(ctx);
+        barImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        [self.navigationBar setBackgroundImage:barImage forBarMetrics:UIBarMetricsDefault];
+    }
+    
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+    if (tintColor) {
+        self.navigationBar.tintColor = tintColor;
+        [attributes setObject:tintColor forKey:NSForegroundColorAttributeName];
+    }
+    
+    if (titleFont) {
+        [attributes setObject:titleFont forKey:NSFontAttributeName];
+    }
+    
+    self.navigationBar.titleTextAttributes = [attributes copy];
+    
+    if (shadowColor) {
+        UIGraphicsBeginImageContext(CGSizeMake(1, 1));
+        CGContextRef ctx = UIGraphicsGetCurrentContext();
+        CGContextAddRect(ctx, CGRectMake(0, 0, 1, 1));
+        CGContextSetFillColorWithColor(ctx, shadowColor.CGColor);
+        CGContextFillPath(ctx);
+        UIImage *shadowImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        self.navigationBar.shadowImage = shadowImage;
+    } else {
+        if (barImage) {
+            self.navigationBar.shadowImage = barImage;
+        }
+    }
+}
+@end
+
+
 #pragma mark - UIImage
 @implementation UIImage (Pluto)
 - (UIImage *)plt_tintedImageWithColor:(UIColor *)color alpha:(CGFloat)alpha
@@ -531,3 +590,12 @@ static char *pltPlaceholderTextViewKey;
     }
 }
 @end
+
+
+#pragma mark - NSTimer
+NSTimer *plt_createCommonModesTimer(NSTimeInterval time, id target, SEL selector, id userInfo)
+{
+    NSTimer *timer = [NSTimer timerWithTimeInterval:time target:target selector:selector userInfo:userInfo repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    return timer;
+}
