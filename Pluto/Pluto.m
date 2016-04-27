@@ -513,20 +513,43 @@ static char *pltPlaceholderTextViewKey;
 
 
 #pragma mark - UINavigationController
+/** 为改变naviBar颜色做准备 */
+@implementation UINavigationBar (Pluto)
+static char pltOverlayKey;
+- (UIView *)pltOverlayKey
+{    return objc_getAssociatedObject(self, &pltOverlayKey);
+}
+
+- (void)setPltOverlayKey:(UIView *)overlay{
+    objc_setAssociatedObject(self, &pltOverlayKey, overlay, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (void)plt_setBackgroundColor:(UIColor *)backgroundColor shadowColor:(UIColor *)shadowColor
+{
+    if (!self.pltOverlayKey) {
+        [self setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
+        [self setShadowImage:[[UIImage alloc] init]];
+        self.pltOverlayKey = [[UIView alloc] initWithFrame:CGRectMake(0, -PltStatusBarHeight, PltScreenWidth, PltNavigationBarHeight)];
+        self.pltOverlayKey.userInteractionEnabled = NO;
+        [self insertSubview:self.pltOverlayKey atIndex:0];
+    }
+    if (shadowColor) {
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 63, PltScreenWidth, 1)];
+        view.backgroundColor = shadowColor;
+        view.userInteractionEnabled = NO;
+        [self.pltOverlayKey addSubview:view];
+    }
+    self.pltOverlayKey.backgroundColor = backgroundColor;
+}
+@end
+
 @implementation UINavigationController (Pluto)
 - (void)plt_setBarUseColor:(UIColor *)color tintColor:(UIColor *)tintColor titleFont:(UIFont *)titleFont shadowColor:(UIColor *)shadowColor
 {
-    UIImage *barImage = nil;
     if (color) {
-        UIGraphicsBeginImageContext(CGSizeMake(1, 1));
-        CGContextRef ctx = UIGraphicsGetCurrentContext();
-        CGContextAddRect(ctx, CGRectMake(0, 0, 1, 1));
-        CGContextSetFillColorWithColor(ctx, color.CGColor);
-        CGContextFillPath(ctx);
-        barImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        
-        [self.navigationBar setBackgroundImage:barImage forBarMetrics:UIBarMetricsDefault];
+        [self.navigationBar plt_setBackgroundColor:color shadowColor:shadowColor];
+    } else {
+        pltError(@"背景色不允许为空");
     }
     
     NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
@@ -540,21 +563,6 @@ static char *pltPlaceholderTextViewKey;
     }
     
     self.navigationBar.titleTextAttributes = [attributes copy];
-    
-    if (shadowColor) {
-        UIGraphicsBeginImageContext(CGSizeMake(1, 1));
-        CGContextRef ctx = UIGraphicsGetCurrentContext();
-        CGContextAddRect(ctx, CGRectMake(0, 0, 1, 1));
-        CGContextSetFillColorWithColor(ctx, shadowColor.CGColor);
-        CGContextFillPath(ctx);
-        UIImage *shadowImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        self.navigationBar.shadowImage = shadowImage;
-    } else {
-        if (barImage) {
-            self.navigationBar.shadowImage = barImage;
-        }
-    }
 }
 @end
 

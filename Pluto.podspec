@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name         = 'Pluto'
-    s.version      = '0.0.3'
+    s.version      = '0.0.4'
     s.summary      = 'iOS development kit. Language: ObjC'
     s.homepage     = 'https://github.com/PlutoMa/Pluto'
     s.license      = 'MIT'
