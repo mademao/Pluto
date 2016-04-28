@@ -87,6 +87,15 @@ void pltTime(id obj)
     printf("%s\n", [[NSString stringWithFormat:@"⏰%@⏰\t%@\n", [date descriptionWithLocale:[NSLocale localeWithLocaleIdentifier:@"zh"]], [obj description]] UTF8String]);
 }
 
+static double pltThen, pltEnd;
+void pltGetCodeExecutionTime(void(^CodeNeedExecution)())
+{
+    pltThen = CFAbsoluteTimeGetCurrent();
+    CodeNeedExecution();
+    pltEnd = CFAbsoluteTimeGetCurrent();
+    pltLog([NSString stringWithFormat:@"代码运行所需时间为:%f", pltEnd - pltThen]);
+}
+
 
 @implementation Pluto
 
@@ -202,7 +211,7 @@ UIColor *PltColorWithRGB(CGFloat red, CGFloat green, CGFloat blue)
 
 
 #pragma mark - UIFont
-UIFont *plt_systemFontOfSize(CGFloat size)
+UIFont *pltSystemFontOfSize(CGFloat size)
 {
     return [UIFont systemFontOfSize:size];
 }
@@ -601,9 +610,28 @@ static char pltOverlayKey;
 
 
 #pragma mark - NSTimer
-NSTimer *plt_createCommonModesTimer(NSTimeInterval time, id target, SEL selector, id userInfo)
+NSTimer *pltTimerCommonModes(NSTimeInterval time, id target, SEL selector, id userInfo)
 {
     NSTimer *timer = [NSTimer timerWithTimeInterval:time target:target selector:selector userInfo:userInfo repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
     return timer;
 }
+
+
+#pragma mark - NSDate
+@implementation NSDate (Pluto)
+static NSDateFormatter *pltDateFormatter = nil;
+- (NSString *)plt_StringWithDate:(NSString *)dateFormatterString
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        pltDateFormatter = [[NSDateFormatter alloc] init];
+    });
+    if (dateFormatterString == nil) {
+        [pltDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    } else {
+        [pltDateFormatter setDateFormat:dateFormatterString];
+    }
+    return [pltDateFormatter stringFromDate:self];
+}
+@end

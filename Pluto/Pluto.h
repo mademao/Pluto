@@ -111,6 +111,11 @@ void pltError(id obj);
  */
 void pltTime(id obj);
 
+/**
+ *  测试一段代码执行需要的时间
+ */
+void pltGetCodeExecutionTime(void(^CodeNeedExecution)());
+
 
 #pragma mark - Pluto
 @interface Pluto : NSObject
@@ -152,7 +157,7 @@ UIColor *PltColorWithRGB(CGFloat red, CGFloat green, CGFloat blue);
  *  创建系统字体的便利构造器
 
  */
-UIFont *plt_systemFontOfSize(CGFloat size);
+UIFont *pltSystemFontOfSize(CGFloat size);
 
 
 #pragma mark - UIView
@@ -279,4 +284,14 @@ UIButton *plt_customButton();
 /**
  *  创建一个循环执行的CommonModes类型的Timer
  */
-NSTimer *plt_createCommonModesTimer(NSTimeInterval time, id target, SEL selector, id userInfo);
+NSTimer *pltTimerCommonModes(NSTimeInterval time, id target, SEL selector, id userInfo);
+
+
+#pragma mark - NSDate
+@interface NSDate (Pluto)
+/**
+ *  由单例来格式化输出时间字符串
+ */
+- (NSString *)plt_StringWithDate:(NSString *)dateFormatterString;
+@end
+
