@@ -55,7 +55,7 @@ void pltLog(id obj)
     if (!PltLogEnable) {
         return;
     }
-    printf("%s\n", [[NSString stringWithFormat:@"☑️%@\n", [obj description]] UTF8String]);
+    printf("%s\n", [[NSString stringWithFormat:@"💻%@\n", [obj description]] UTF8String]);
 }
 void pltRight(id obj)
 {
@@ -161,9 +161,13 @@ void pltGetCodeExecutionTime(void(^CodeNeedExecution)())
 {
     return [NSURL URLWithString:self];
 }
-
 @end
 
+CGFloat pltGetSize(NSString *string, CGFloat width, CGFloat fontSize)
+{
+    CGFloat height = [string boundingRectWithSize:CGSizeMake(width, 10000) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:fontSize == 0 ? 17 : fontSize]} context:nil].size.height;
+    return height;
+}
 
 #pragma mark - UIColor
 

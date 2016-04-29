@@ -131,7 +131,8 @@ void pltGetCodeExecutionTime(void(^CodeNeedExecution)());
 /** 字符串对应的URL */
 @property (nonatomic, readonly) NSURL *url;
 @end
-
+/** 获取文字在指定宽度内的高度 */
+CGFloat pltGetSize(NSString *string, CGFloat width, CGFloat fontSize);
 
 #pragma mark - UIColor
 
