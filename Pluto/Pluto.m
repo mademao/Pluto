@@ -213,6 +213,13 @@ UIColor *PltColorWithRGB(CGFloat red, CGFloat green, CGFloat blue)
     return PltColorWithRGBA(red, green, blue, 1.0f);
 }
 
+UIColor *PltColorRandom()
+{
+    float red = arc4random() % 256;
+    float green = arc4random() % 256;
+    float blue = arc4random() % 256;
+    return PltColorWithRGB(red, green, blue);
+}
 
 #pragma mark - UIFont
 UIFont *pltSystemFontOfSize(CGFloat size)
@@ -614,11 +621,37 @@ static char pltOverlayKey;
 
 
 #pragma mark - NSTimer
+@interface PltTimerTarget : NSObject
+
+@property (nonatomic, weak) id target;
+@property (nonatomic, assign) SEL selector;
+@property (nonatomic, weak) NSTimer *timer;
+
+@end
+
+@implementation PltTimerTarget
+
+- (void)pltTimerTargetAction:(NSTimer *)timer
+{
+    if (self.target) {
+        [self.target performSelector:self.selector withObject:timer afterDelay:0.0];
+    } else {
+        [self.timer invalidate];
+        self.timer = nil;
+    }
+}
+
+@end
+
 NSTimer *pltTimerCommonModes(NSTimeInterval time, id target, SEL selector, id userInfo)
 {
-    NSTimer *timer = [NSTimer timerWithTimeInterval:time target:target selector:selector userInfo:userInfo repeats:YES];
+    PltTimerTarget *timerTarget = [[PltTimerTarget alloc] init];
+    timerTarget.target = target;
+    timerTarget.selector = selector;
+    NSTimer *timer = [NSTimer timerWithTimeInterval:time target:timerTarget selector:@selector(pltTimerTargetAction:) userInfo:userInfo repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-    return timer;
+    timerTarget.timer = timer;
+    return timerTarget.timer;
 }
 
 

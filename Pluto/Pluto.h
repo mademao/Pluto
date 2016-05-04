@@ -152,6 +152,10 @@ UIColor *PltColorWithRGBA(CGFloat red, CGFloat green, CGFloat blue, CGFloat alph
  */
 UIColor *PltColorWithRGB(CGFloat red, CGFloat green, CGFloat blue);
 
+/**
+ *  创建随机色
+ */
+UIColor *PltColorRandom();
 
 #pragma mark - UIFont
 /**
