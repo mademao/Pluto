@@ -205,6 +205,15 @@ UIFont *pltSystemFontOfSize(CGFloat size);
 UIButton *plt_customButton();
 
 
+#pragma mark - UIImageView
+@interface UIImageView (Pluto)
+/*
+ *  UIImageView的切圆角方法
+ */
+- (void)plt_cornerRadiusForImageView:(CGFloat)radius;
+@end
+
+
 #pragma mark - UIScrollView
 @interface UIScrollView (Pluto)
 /** 顶部内偏量 */
@@ -283,6 +292,10 @@ UIButton *plt_customButton();
  */
 - (UIImage *)plt_tintedImageWithColor:(UIColor *)color alpha:(CGFloat)alpha;
 @end
+/*
+ *  根据颜色生成图片
+ */
+UIImage *pltCreateImage(UIColor *color, CGSize size);
 
 
 #pragma mark - NSTimer

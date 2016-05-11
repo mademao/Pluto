@@ -323,6 +323,21 @@ UIButton *plt_customButton()
     return [UIButton buttonWithType:UIButtonTypeCustom];
 }
 
+#pragma mark - UIImageView
+@implementation UIImageView (Pluto)
+- (void)plt_cornerRadiusForImageView:(CGFloat)radius
+{
+    if (self.image) {
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, [UIScreen mainScreen].scale);
+        CGContextAddPath(UIGraphicsGetCurrentContext(), [UIBezierPath bezierPathWithRoundedRect:self.bounds cornerRadius:radius].CGPath);
+        CGContextClip(UIGraphicsGetCurrentContext());
+        [self drawRect:self.bounds];
+        self.image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+    }
+}
+@end
+
 #pragma mark - UIScrollView
 @implementation UIScrollView (Pluto)
 - (CGFloat)plt_insetTop
@@ -618,6 +633,21 @@ static char pltOverlayKey;
     }
 }
 @end
+UIImage *pltCreateImage(UIColor *color, CGSize size)
+{
+    CGRect rect = CGRectMake(0, 0, size.width, size.height);
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextDrawPath(context, kCGPathStroke);
+    
+    
+    CGContextSetFillColorWithColor(context, color.CGColor);
+    CGContextFillRect(context, rect);
+    
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
 
 
 #pragma mark - NSTimer
