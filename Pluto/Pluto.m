@@ -230,6 +230,60 @@ UIFont *pltSystemFontOfSize(CGFloat size)
 
 #pragma mark - UIView
 @implementation UIView (Pluto)
+- (CGFloat)plt_x
+{
+    return self.frame.origin.x;
+}
+- (void)setPlt_x:(CGFloat)plt_x
+{
+    CGRect frame = CGRectMake(plt_x, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
+    self.frame = frame;
+}
+- (CGFloat)plt_y
+{
+    return self.frame.origin.y;
+}
+- (void)setPlt_y:(CGFloat)plt_y
+{
+    CGRect frame = CGRectMake(self.frame.origin.x, plt_y, self.frame.size.width, self.frame.size.height);
+    self.frame = frame;
+}
+- (CGFloat)plt_width
+{
+    return self.frame.size.width;
+}
+- (void)setPlt_width:(CGFloat)plt_width
+{
+    CGRect frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, plt_width, self.frame.size.height);
+    self.frame = frame;
+}
+-(CGFloat)plt_height
+{
+    return self.frame.size.height;
+}
+- (void)setPlt_height:(CGFloat)plt_height
+{
+    CGRect frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, plt_height);
+    self.frame = frame;
+}
+- (CGPoint)plt_origin
+{
+    return self.frame.origin;
+}
+- (void)setPlt_origin:(CGPoint)plt_origin
+{
+    CGRect frame = CGRectMake(plt_origin.x, plt_origin.y, self.frame.size.width, self.frame.size.height);
+    self.frame = frame;
+}
+- (CGSize)plt_size
+{
+    return self.frame.size;
+}
+- (void)setPlt_size:(CGSize)plt_size
+{
+    CGRect frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, plt_size.width, plt_size.height);
+    self.frame = frame;
+}
 - (instancetype)plt_addToSuperview:(UIView *)superview
 {
     if (self.superview) {

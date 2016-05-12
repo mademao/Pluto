@@ -168,6 +168,30 @@ UIFont *pltSystemFontOfSize(CGFloat size);
 #pragma mark - UIView
 @interface UIView (Pluto)
 /**
+ *  视图origin.x
+ */
+@property (nonatomic, assign) CGFloat   plt_x;
+/**
+ *  视图origin.y
+ */
+@property (nonatomic, assign) CGFloat   plt_y;
+/**
+ *  视图size.width
+ */
+@property (nonatomic, assign) CGFloat   plt_width;
+/**
+ *  视图size.height
+ */
+@property (nonatomic, assign) CGFloat   plt_height;
+/**
+ *  视图origin
+ */
+@property (nonatomic, assign) CGPoint   plt_origin;
+/**
+ *  视图size
+ */
+@property (nonatomic, assign) CGSize    plt_size;
+/**
  *  设置父视图
  */
 - (instancetype)plt_addToSuperview:(UIView *)superview;
