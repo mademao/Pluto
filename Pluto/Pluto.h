@@ -226,7 +226,7 @@ UIFont *pltSystemFontOfSize(CGFloat size);
 /**
  *  快速创建一个自定义button
  */
-UIButton *plt_customButton();
+UIButton *plt_customButton(CGFloat x, CGFloat y, CGFloat width, CGFloat height);
 
 
 #pragma mark - UIImageView

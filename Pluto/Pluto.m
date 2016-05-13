@@ -372,9 +372,11 @@ UIFont *pltSystemFontOfSize(CGFloat size)
     return self;
 }
 @end
-UIButton *plt_customButton()
+UIButton *plt_customButton(CGFloat x, CGFloat y, CGFloat width, CGFloat height)
 {
-    return [UIButton buttonWithType:UIButtonTypeCustom];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(x, y, width, height);
+    return button;
 }
 
 #pragma mark - UIImageView
