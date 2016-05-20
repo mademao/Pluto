@@ -163,7 +163,7 @@ void pltGetCodeExecutionTime(void(^CodeNeedExecution)())
 }
 @end
 
-CGFloat pltGetSize(NSString *string, CGFloat width, CGFloat fontSize)
+CGFloat PltGetSize(NSString *string, CGFloat width, CGFloat fontSize)
 {
     CGFloat height = [string boundingRectWithSize:CGSizeMake(width, 10000) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:fontSize == 0 ? 17 : fontSize]} context:nil].size.height;
     return height;
@@ -222,7 +222,7 @@ UIColor *PltColorRandom()
 }
 
 #pragma mark - UIFont
-UIFont *pltSystemFontOfSize(CGFloat size)
+UIFont *PltSystemFontOfSize(CGFloat size)
 {
     return [UIFont systemFontOfSize:size];
 }
@@ -320,6 +320,36 @@ UIFont *pltSystemFontOfSize(CGFloat size)
     if (borderColor) {
         self.layer.borderColor = borderColor.CGColor;
     }
+}
+@end
+
+#pragma mark - UILabel
+@implementation UILabel (Pluto)
++ (void)load
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Method method1 = class_getInstanceMethod(self, @selector(drawTextInRect:));
+        Method method2 = class_getInstanceMethod(self, @selector(plt_drawTextInRect:));
+        method_exchangeImplementations(method1, method2);
+    });
+}
+
+static char pltTextOffsetXKey;
+- (void)setPlt_textOffsetX:(CGFloat)plt_textOffsetX
+{
+    objc_setAssociatedObject(self, &pltTextOffsetXKey, [NSNumber numberWithFloat:plt_textOffsetX], OBJC_ASSOCIATION_ASSIGN);
+}
+
+- (CGFloat)plt_textOffsetX
+{
+    return [objc_getAssociatedObject(self, &pltTextOffsetXKey) floatValue];
+}
+
+- (void)plt_drawTextInRect:(CGRect)rect
+{
+    CGRect rectTemp = UIEdgeInsetsInsetRect(rect, UIEdgeInsetsMake(0, self.plt_textOffsetX, 0, 0));
+    [self plt_drawTextInRect:rectTemp];
 }
 @end
 
@@ -520,7 +550,7 @@ static char *pltPlaceholderTextViewKey;
  *
  *  @param placeholder 占位文字
  */
-- (void)setPltPlaceholder:(NSString *)placeholder
+- (void)setPlt_placeholder:(NSString *)plt_placeholder
 {
     if (!self.pltPlaceholderTextView) {
         UITextView *placeholderTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
@@ -536,10 +566,10 @@ static char *pltPlaceholderTextViewKey;
         [self addObserver:self forKeyPath:@"font" options:NSKeyValueObservingOptionNew context:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(plt_textChange) name:UITextViewTextDidChangeNotification object:nil];
     }
-    self.pltPlaceholderTextView.text = placeholder;
+    self.pltPlaceholderTextView.text = plt_placeholder;
 }
 
-- (NSString *)pltPlaceholder
+- (NSString *)plt_placeholder
 {
     if (self.pltPlaceholderTextView) {
         return self.pltPlaceholderTextView.text;
@@ -548,14 +578,14 @@ static char *pltPlaceholderTextViewKey;
     }
 }
 
-- (void)setPltPlaceholderColor:(UIColor *)placeholderColor
+- (void)setPlt_placeholderColor:(UIColor *)plt_placeholderColor
 {
     if (self.pltPlaceholderTextView) {
-        self.pltPlaceholderTextView.textColor = placeholderColor;
+        self.pltPlaceholderTextView.textColor = plt_placeholderColor;
     }
 }
 
-- (UIColor *)pltPlaceholderColor
+- (UIColor *)plt_placeholderColor
 {
     if (self.pltPlaceholderTextView) {
         return self.pltPlaceholderTextView.textColor;
@@ -689,7 +719,7 @@ static char pltOverlayKey;
     }
 }
 @end
-UIImage *pltCreateImage(UIColor *color, CGSize size)
+UIImage *PltCreateImage(UIColor *color, CGSize size)
 {
     CGRect rect = CGRectMake(0, 0, size.width, size.height);
     UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
@@ -729,7 +759,7 @@ UIImage *pltCreateImage(UIColor *color, CGSize size)
 
 @end
 
-NSTimer *pltTimerCommonModes(NSTimeInterval time, id target, SEL selector, id userInfo)
+NSTimer *PltTimerCommonModes(NSTimeInterval time, id target, SEL selector, id userInfo)
 {
     PltTimerTarget *timerTarget = [[PltTimerTarget alloc] init];
     timerTarget.target = target;

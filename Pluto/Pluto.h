@@ -132,7 +132,7 @@ void pltGetCodeExecutionTime(void(^CodeNeedExecution)());
 @property (nonatomic, readonly) NSURL *url;
 @end
 /** 获取文字在指定宽度内的高度 */
-CGFloat pltGetSize(NSString *string, CGFloat width, CGFloat fontSize);
+CGFloat PltGetSize(NSString *string, CGFloat width, CGFloat fontSize);
 
 #pragma mark - UIColor
 
@@ -162,7 +162,7 @@ UIColor *PltColorRandom();
  *  创建系统字体的便利构造器
 
  */
-UIFont *pltSystemFontOfSize(CGFloat size);
+UIFont *PltSystemFontOfSize(CGFloat size);
 
 
 #pragma mark - UIView
@@ -207,6 +207,13 @@ UIFont *pltSystemFontOfSize(CGFloat size);
  *  同时设定 圆角半径 描边宽度 描边颜色
  */
 - (void)plt_cornerRadius:(CGFloat)radius borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor;
+@end
+
+
+#pragma mark - UILabel
+@interface UILabel (Pluto)
+/** 文字偏移量 */
+@property (nonatomic, assign) CGFloat plt_textOffsetX;
 @end
 
 
@@ -294,9 +301,9 @@ UIButton *plt_customButton(CGFloat x, CGFloat y, CGFloat width, CGFloat height);
 #pragma mark - UITextView
 @interface UITextView (Pluto)
 /** 占位符 */
-@property (nonatomic, strong) NSString *pltPlaceholder;
+@property (nonatomic, strong) NSString *plt_placeholder;
 /** 占位符文字颜色 */
-@property (nonatomic, strong) UIColor *pltPlaceholderColor;
+@property (nonatomic, strong) UIColor *plt_placeholderColor;
 @end
 
 
@@ -319,14 +326,14 @@ UIButton *plt_customButton(CGFloat x, CGFloat y, CGFloat width, CGFloat height);
 /*
  *  根据颜色生成图片
  */
-UIImage *pltCreateImage(UIColor *color, CGSize size);
+UIImage *PltCreateImage(UIColor *color, CGSize size);
 
 
 #pragma mark - NSTimer
 /**
  *  创建一个循环执行的CommonModes类型的Timer
  */
-NSTimer *pltTimerCommonModes(NSTimeInterval time, id target, SEL selector, id userInfo);
+NSTimer *PltTimerCommonModes(NSTimeInterval time, id target, SEL selector, id userInfo);
 
 
 #pragma mark - NSDate
