@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 #import <AdSupport/ASIdentifierManager.h>
+#import <sys/utsname.h>
 
 #pragma mark - 默认输出权限
 #if DEBUG
@@ -72,13 +73,15 @@ extern NSString *PltIDFA;
 
 
 #pragma mark - 系统信息
+/** 系统机型  */
+extern NSString *PltModel;
 /** 系统信息  */
 extern NSString *PltSystemVersion;
 /** 系统版本号 */
 extern float PltSystemVersionNumber;
 
 
-#pragma mark - 系统机型
+#pragma mark - 系统屏幕类型
 /** 是否是6P/ 6sP */
 extern BOOL PltiPhone6P;
 /** 是否是6/6s */
