@@ -55,7 +55,9 @@ void pltLog(id obj)
     if (!PltLogEnable) {
         return;
     }
-    printf("%s\n", [[NSString stringWithFormat:@"💻%@\n", [obj description]] UTF8String]);
+    NSDate *date = [NSDate date];
+    NSString *dateStr = [date plt_StringWithDate:@"HH:mm:ss S"];
+    printf("%s\n", [[NSString stringWithFormat:@"-----> %@\n%@\n", dateStr, [obj description]] UTF8String]);
 }
 void pltRight(id obj)
 {
@@ -76,15 +78,7 @@ void pltError(id obj)
     if (!PltLogEnable) {
         return;
     }
-    printf("%s\n", [[NSString stringWithFormat:@"🙅%@\n", [obj description]] UTF8String]);
-}
-void pltTime(id obj)
-{
-    if (!PltLogEnable) {
-        return;
-    }
-    NSDate *date = [NSDate date];
-    printf("%s\n", [[NSString stringWithFormat:@"⏰%@⏰\t%@\n", [date descriptionWithLocale:[NSLocale localeWithLocaleIdentifier:@"zh"]], [obj description]] UTF8String]);
+    printf("%s\n", [[NSString stringWithFormat:@"❗️%@\n", [obj description]] UTF8String]);
 }
 
 static double pltThen, pltEnd;
@@ -96,9 +90,34 @@ void pltGetCodeExecutionTime(void(^CodeNeedExecution)())
     pltLog([NSString stringWithFormat:@"代码运行所需时间为:%f", pltEnd - pltThen]);
 }
 
+#pragma mark - GCD
+void PltAsync(void(^block)())
+{
+    dispatch_queue_t queue = dispatch_queue_create("Pluto.framework.Async", nil);
+    dispatch_async(queue, block);
+}
+void PltAfter(double second, dispatch_queue_t queue, void(^block)())
+{
+    if (!queue) {
+        queue = dispatch_get_main_queue();
+    }
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(second * NSEC_PER_SEC)), dispatch_get_main_queue(), block);
+}
+void PltLast(void(^block)())
+{
+    dispatch_async(dispatch_get_main_queue(), block);
+}
+void PltAsyncFinish(void(^block)(), void(^finish)())
+{
+    dispatch_queue_t queue = dispatch_queue_create("Pluto.framework.AsyncFinish", nil);
+    dispatch_async(queue, ^{
+        block();
+        dispatch_async(dispatch_get_main_queue(), finish);
+    });
+}
 
+#pragma mark - Pluto
 @implementation Pluto
-
 + (void)initializePluto
 {
     PltScreenBounds        = [UIScreen mainScreen].bounds;
