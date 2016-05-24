@@ -151,7 +151,7 @@ void PltAsyncFinish(void(^block)(), void(^finish)());
 #pragma mark - NSString
 @interface NSString (Pluto)
 /** 字符串对应的URL */
-@property (nonatomic, readonly) NSURL *url;
+@property (nonatomic, readonly) NSURL *plt_url;
 @end
 /** 获取文字在指定宽度内的高度 */
 CGFloat PltGetSize(NSString *string, CGFloat width, CGFloat fontSize);
@@ -224,11 +224,11 @@ UIFont *PltSystemFontOfSize(CGFloat size);
 /**
  *  设定圆角半径
  */
-- (void)plt_cornerRadius:(CGFloat)radius;
+- (instancetype)plt_cornerRadius:(CGFloat)radius;
 /**
  *  同时设定 圆角半径 描边宽度 描边颜色
  */
-- (void)plt_cornerRadius:(CGFloat)radius borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor;
+- (instancetype)plt_cornerRadius:(CGFloat)radius borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor;
 @end
 
 
@@ -255,15 +255,15 @@ UIFont *PltSystemFontOfSize(CGFloat size);
 /**
  *  快速创建一个自定义button
  */
-UIButton *plt_customButton(CGFloat x, CGFloat y, CGFloat width, CGFloat height);
+UIButton *PltCustomButton(CGFloat x, CGFloat y, CGFloat width, CGFloat height);
 
 
 #pragma mark - UIImageView
 @interface UIImageView (Pluto)
-/*
+/**
  *  UIImageView的切圆角方法
  */
-- (void)plt_cornerRadiusForImageView:(CGFloat)radius;
+- (instancetype)plt_cornerRadiusForImageView:(CGFloat)radius;
 @end
 
 
@@ -289,11 +289,11 @@ UIButton *plt_customButton(CGFloat x, CGFloat y, CGFloat width, CGFloat height);
 /**
  *  根据类名注册cell
  */
-- (void)plt_registerCellWithClass:(Class)cellClass;
+- (instancetype)plt_registerCellWithClass:(Class)cellClass;
 /**
  *  根据nib注册cell
  */
-- (void)plt_registerCellWithNibName:(NSString *)nibName;
+- (instancetype)plt_registerCellWithNibName:(NSString *)nibName;
 @end
 
 
@@ -334,7 +334,7 @@ UIButton *plt_customButton(CGFloat x, CGFloat y, CGFloat width, CGFloat height);
 /**
  *  设置Bar颜色，渲染色和阴影色
  */
-- (void)plt_setBarUseColor:(UIColor *)color tintColor:(UIColor *)tintColor titleFont:(UIFont *)titleFont shadowColor:(UIColor *)shadowColor;
+- (instancetype)plt_setBarUseColor:(UIColor *)color tintColor:(UIColor *)tintColor titleFont:(UIFont *)titleFont shadowColor:(UIColor *)shadowColor;
 @end
 
 

@@ -251,7 +251,7 @@ void PltAsyncFinish(void(^block)(), void(^finish)())
 
 #pragma mark - NSString
 @implementation NSString (Pluto)
-- (NSURL *)url
+- (NSURL *)plt_url
 {
     return [NSURL URLWithString:self];
 }
@@ -401,12 +401,13 @@ UIFont *PltSystemFontOfSize(CGFloat size)
     }
     return self;
 }
-- (void)plt_cornerRadius:(CGFloat)radius
+- (instancetype)plt_cornerRadius:(CGFloat)radius
 {
     self.layer.masksToBounds = YES;
     self.layer.cornerRadius = radius;
+    return self;
 }
-- (void)plt_cornerRadius:(CGFloat)radius borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor
+- (instancetype)plt_cornerRadius:(CGFloat)radius borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor
 {
     self.layer.cornerRadius = radius;
     self.layer.masksToBounds = true;
@@ -414,6 +415,7 @@ UIFont *PltSystemFontOfSize(CGFloat size)
     if (borderColor) {
         self.layer.borderColor = borderColor.CGColor;
     }
+    return self;
 }
 @end
 
@@ -496,7 +498,7 @@ static char pltTextOffsetXKey;
     return self;
 }
 @end
-UIButton *plt_customButton(CGFloat x, CGFloat y, CGFloat width, CGFloat height)
+UIButton *PltCustomButton(CGFloat x, CGFloat y, CGFloat width, CGFloat height)
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(x, y, width, height);
@@ -505,7 +507,7 @@ UIButton *plt_customButton(CGFloat x, CGFloat y, CGFloat width, CGFloat height)
 
 #pragma mark - UIImageView
 @implementation UIImageView (Pluto)
-- (void)plt_cornerRadiusForImageView:(CGFloat)radius
+- (instancetype)plt_cornerRadiusForImageView:(CGFloat)radius
 {
     if (self.image) {
         UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, [UIScreen mainScreen].scale);
@@ -515,6 +517,7 @@ UIButton *plt_customButton(CGFloat x, CGFloat y, CGFloat width, CGFloat height)
         self.image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
     }
+    return self;
 }
 @end
 
@@ -579,15 +582,16 @@ UIButton *plt_customButton(CGFloat x, CGFloat y, CGFloat width, CGFloat height)
 
 #pragma mark - UITableView
 @implementation UITableView (Pluto)
-- (void)plt_registerCellWithClass:(Class)cellClass
+- (instancetype)plt_registerCellWithClass:(Class)cellClass
 {
     if (cellClass) {
         [self registerClass:cellClass forCellReuseIdentifier:NSStringFromClass(cellClass)];
     } else {
         pltWarning(@"类型不允许为空");
     }
+    return self;
 }
-- (void)plt_registerCellWithNibName:(NSString *)nibName
+- (instancetype)plt_registerCellWithNibName:(NSString *)nibName
 {
     UINib *nib = [UINib nibWithNibName:nibName bundle:nil];
     if (nib) {
@@ -595,6 +599,7 @@ UIButton *plt_customButton(CGFloat x, CGFloat y, CGFloat width, CGFloat height)
     } else {
         pltWarning(@"nib不存在");
     }
+    return self;
 }
 @end
 
@@ -759,7 +764,7 @@ static char pltOverlayKey;
 @end
 
 @implementation UINavigationController (Pluto)
-- (void)plt_setBarUseColor:(UIColor *)color tintColor:(UIColor *)tintColor titleFont:(UIFont *)titleFont shadowColor:(UIColor *)shadowColor
+- (instancetype)plt_setBarUseColor:(UIColor *)color tintColor:(UIColor *)tintColor titleFont:(UIFont *)titleFont shadowColor:(UIColor *)shadowColor
 {
     if (color) {
         [self.navigationBar plt_setBackgroundColor:color shadowColor:shadowColor];
@@ -778,6 +783,7 @@ static char pltOverlayKey;
     }
     
     self.navigationBar.titleTextAttributes = [attributes copy];
+    return self;
 }
 @end
 
