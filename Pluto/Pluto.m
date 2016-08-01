@@ -48,39 +48,6 @@ BOOL PltiPhone6;
 BOOL PltiPhone5;
 BOOL PltiPhone4s;
 
-#pragma mark - 自定义输出
-/** 自定义输出是否启动，默认不启动 */
-BOOL PltLogEnable = pltDefaultLogEnable;
-void pltLog(id obj)
-{
-    if (!PltLogEnable) {
-        return;
-    }
-    NSDate *date = [NSDate date];
-    NSString *dateStr = [date plt_StringWithDate:@"HH:mm:ss S"];
-    printf("%s\n", [[NSString stringWithFormat:@"-----> %@\n%@\n", dateStr, [obj description]] UTF8String]);
-}
-void pltRight(id obj)
-{
-    if (!PltLogEnable) {
-        return;
-    }
-    printf("%s\n", [[NSString stringWithFormat:@"✅%@\n", [obj description]] UTF8String]);
-}
-void pltWarning(id obj)
-{
-    if (!PltLogEnable) {
-        return;
-    }
-    printf("%s\n", [[NSString stringWithFormat:@"⚠️%@\n", [obj description]] UTF8String]);
-}
-void pltError(id obj)
-{
-    if (!PltLogEnable) {
-        return;
-    }
-    printf("%s\n", [[NSString stringWithFormat:@"❗️%@\n", [obj description]] UTF8String]);
-}
 
 static double pltThen, pltEnd;
 void pltGetCodeExecutionTime(void(^CodeNeedExecution)())
@@ -228,11 +195,6 @@ void PltAsyncFinish(void(^block)(), void(^finish)())
     if ([platform isEqualToString:@"x86_64"])    return @"iPhone Simulator";
     
     return platform;
-}
-
-+ (void)pltLogEnable:(BOOL)enable
-{
-    PltLogEnable = enable;
 }
 
 @end
@@ -879,6 +841,7 @@ static NSDateFormatter *pltDateFormatter = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         pltDateFormatter = [[NSDateFormatter alloc] init];
+        [pltDateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"]];
     });
     if (dateFormatterString == nil) {
         [pltDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		412AE65E1D4F3EC500E80C6C /* PlutoLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 412AE65D1D4F3EC500E80C6C /* PlutoLog.m */; };
 		41785AB41CCDEBB500F1D680 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 41785AB31CCDEBB500F1D680 /* main.m */; };
 		41785ABD1CCDEBB500F1D680 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 41785ABB1CCDEBB500F1D680 /* Main.storyboard */; };
 		41785ABF1CCDEBB500F1D680 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 41785ABE1CCDEBB500F1D680 /* Assets.xcassets */; };
@@ -17,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		412AE65C1D4F3EC500E80C6C /* PlutoLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlutoLog.h; sourceTree = "<group>"; };
+		412AE65D1D4F3EC500E80C6C /* PlutoLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlutoLog.m; sourceTree = "<group>"; };
 		41785AAF1CCDEBB500F1D680 /* PlutoExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlutoExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		41785AB31CCDEBB500F1D680 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		41785ABC1CCDEBB500F1D680 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -85,6 +88,8 @@
 			children = (
 				41785AD31CCDF0EC00F1D680 /* Pluto.h */,
 				41785AD41CCDF0EC00F1D680 /* Pluto.m */,
+				412AE65C1D4F3EC500E80C6C /* PlutoLog.h */,
+				412AE65D1D4F3EC500E80C6C /* PlutoLog.m */,
 			);
 			path = Pluto;
 			sourceTree = "<group>";
@@ -190,6 +195,7 @@
 				41785AD21CCDED1800F1D680 /* MDMRootVC.m in Sources */,
 				41785AB41CCDEBB500F1D680 /* main.m in Sources */,
 				41785AD51CCDF0EC00F1D680 /* Pluto.m in Sources */,
+				412AE65E1D4F3EC500E80C6C /* PlutoLog.m in Sources */,
 				41785ACF1CCDECD000F1D680 /* MDMAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

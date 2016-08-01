@@ -19,4 +19,15 @@
     [super viewDidLoad];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+
+    NSMutableArray *a = [NSMutableArray arrayWithCapacity:1];
+//    [a addObject:nil];
+    
+    [PlutoLog pltClearCrashBeforeDay:0];
+    
+}
+
 @end

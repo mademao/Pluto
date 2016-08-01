@@ -11,13 +11,8 @@
 #import <objc/runtime.h>
 #import <AdSupport/ASIdentifierManager.h>
 #import <sys/utsname.h>
+#import "PlutoLog.h"
 
-#pragma mark - 默认输出权限
-#if DEBUG
-#define pltDefaultLogEnable (YES)
-#else
-#define pltDefaultLogEnable (NO)
-#endif
 
 #pragma mark - 固定尺寸
 /** 屏幕Bounds */
@@ -91,25 +86,6 @@ extern BOOL PltiPhone5;
 /** 是否是 4/4s */
 extern BOOL PltiPhone4s;
 
-
-#pragma mark - 自定义输出
-/**
- *  自定义输出
- */
-void pltLog(id obj);
-/**
- *  自定义正确输出
- */
-void pltRight(id obj);
-/**
- *  自定义警告错误
- */
-void pltWarning(id obj);
-/**
- *  自定义错误输出
- */
-void pltError(id obj);
-
 /**
  *  测试一段代码执行需要的时间
  */
@@ -141,10 +117,7 @@ void PltAsyncFinish(void(^block)(), void(^finish)());
 
 #pragma mark - Pluto
 @interface Pluto : NSObject
-/**
- *  设置自定义是否启动，默认Debug开启，Release关闭
- */
-+ (void)pltLogEnable:(BOOL)enable;
+
 @end
 
 
