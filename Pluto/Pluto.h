@@ -171,6 +171,22 @@ UIFont *PltSystemFontOfSize(CGFloat size);
  */
 @property (nonatomic, assign) CGFloat   plt_y;
 /**
+ *  视图midX
+ */
+@property (nonatomic, assign, readonly) CGFloat   plt_midX;
+/**
+ *  视图maxX
+ */
+@property (nonatomic, assign, readonly) CGFloat   plt_maxX;
+/**
+ *  视图midY
+ */
+@property (nonatomic, assign, readonly) CGFloat   plt_midY;
+/**
+ *  视图maxY
+ */
+@property (nonatomic, assign, readonly) CGFloat   plt_maxY;
+/**
  *  视图size.width
  */
 @property (nonatomic, assign) CGFloat   plt_width;
@@ -322,6 +338,21 @@ UIButton *PltCustomButton(CGFloat x, CGFloat y, CGFloat width, CGFloat height);
  *  根据颜色生成图片
  */
 UIImage *PltCreateImage(UIColor *color, CGSize size);
+
+
+#pragma mark - NSData
+@interface NSData (Pluto)
+typedef enum : NSUInteger {
+    PltImageFormatUnknow,
+    PltImageFormatPNG,
+    PltImageFormatJPEG,
+    PltImageFormatGIF
+} PltImageFormat;
+/**
+ * 通过图片data判断图片类型
+ */
+- (PltImageFormat)plt_getImageFormat;
+@end
 
 
 #pragma mark - NSTimer

@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		412AE65E1D4F3EC500E80C6C /* PlutoLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 412AE65D1D4F3EC500E80C6C /* PlutoLog.m */; };
+		415227621DB5CB17005C387B /* gif.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4152275F1DB5CB17005C387B /* gif.jpg */; };
+		415227631DB5CB17005C387B /* jpg.JPG in Resources */ = {isa = PBXBuildFile; fileRef = 415227601DB5CB17005C387B /* jpg.JPG */; };
+		415227641DB5CB17005C387B /* png.png in Resources */ = {isa = PBXBuildFile; fileRef = 415227611DB5CB17005C387B /* png.png */; };
 		41785AB41CCDEBB500F1D680 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 41785AB31CCDEBB500F1D680 /* main.m */; };
 		41785ABD1CCDEBB500F1D680 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 41785ABB1CCDEBB500F1D680 /* Main.storyboard */; };
 		41785ABF1CCDEBB500F1D680 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 41785ABE1CCDEBB500F1D680 /* Assets.xcassets */; };
@@ -20,6 +23,9 @@
 /* Begin PBXFileReference section */
 		412AE65C1D4F3EC500E80C6C /* PlutoLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlutoLog.h; sourceTree = "<group>"; };
 		412AE65D1D4F3EC500E80C6C /* PlutoLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlutoLog.m; sourceTree = "<group>"; };
+		4152275F1DB5CB17005C387B /* gif.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gif.jpg; sourceTree = "<group>"; };
+		415227601DB5CB17005C387B /* jpg.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = jpg.JPG; sourceTree = "<group>"; };
+		415227611DB5CB17005C387B /* png.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = png.png; sourceTree = "<group>"; };
 		41785AAF1CCDEBB500F1D680 /* PlutoExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlutoExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		41785AB31CCDEBB500F1D680 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		41785ABC1CCDEBB500F1D680 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -45,6 +51,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4152275E1DB5CB17005C387B /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				4152275F1DB5CB17005C387B /* gif.jpg */,
+				415227601DB5CB17005C387B /* jpg.JPG */,
+				415227611DB5CB17005C387B /* png.png */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
 		41785AA61CCDEBB500F1D680 = {
 			isa = PBXGroup;
 			children = (
@@ -97,6 +113,7 @@
 		41785ACA1CCDEC3200F1D680 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				4152275E1DB5CB17005C387B /* Resource */,
 				41785ACB1CCDEC9D00F1D680 /* AppDelegate */,
 				41785ACC1CCDEC9D00F1D680 /* Sections */,
 			);
@@ -179,9 +196,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				415227621DB5CB17005C387B /* gif.jpg in Resources */,
 				41785AC21CCDEBB500F1D680 /* LaunchScreen.storyboard in Resources */,
 				41785ABF1CCDEBB500F1D680 /* Assets.xcassets in Resources */,
+				415227641DB5CB17005C387B /* png.png in Resources */,
 				41785ABD1CCDEBB500F1D680 /* Main.storyboard in Resources */,
+				415227631DB5CB17005C387B /* jpg.JPG in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

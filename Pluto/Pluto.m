@@ -304,6 +304,22 @@ UIFont *PltSystemFontOfSize(CGFloat size)
     CGRect frame = CGRectMake(self.frame.origin.x, plt_y, self.frame.size.width, self.frame.size.height);
     self.frame = frame;
 }
+- (CGFloat)plt_midX
+{
+    return CGRectGetMidX(self.frame);
+}
+- (CGFloat)plt_maxX
+{
+    return CGRectGetMaxX(self.frame);
+}
+- (CGFloat)plt_midY
+{
+    return CGRectGetMidY(self.frame);
+}
+- (CGFloat)plt_maxY
+{
+    return CGRectGetMaxY(self.frame);
+}
 - (CGFloat)plt_width
 {
     return self.frame.size.width;
@@ -796,6 +812,40 @@ UIImage *PltCreateImage(UIColor *color, CGSize size)
     UIGraphicsEndImageContext();
     return newImage;
 }
+
+
+#pragma mark - NSData
+@implementation NSData (Pluto)
+- (PltImageFormat)plt_getImageFormat
+{
+    Byte PNG[8] = {0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a};
+    Byte JPGSOI[2] = {0xff, 0xd8};
+    Byte JPGIF[1] = {0xff};
+    Byte GIF[3] = {0x47, 0x49, 0x46};
+    
+    Byte byte[8];
+    [self getBytes:&byte length:8];
+    BOOL isPNG = YES;
+    for (int i = 0; i < 8; i++) {
+        if (byte[i] != PNG[i]) {
+            isPNG = NO;
+            break;
+        }
+    }
+    if (isPNG) {
+        return PltImageFormatPNG;
+    }
+    
+    if (byte[0] == JPGSOI[0] && byte[1] == JPGSOI[1] && byte[2] == JPGIF[0]) {
+        return PltImageFormatJPEG;
+    }
+    
+    if (byte[0] == GIF[0] && byte[1] == GIF[1] && byte[2] == GIF[2]) {
+        return PltImageFormatGIF;
+    }
+    return PltImageFormatUnknow;
+}
+@end
 
 
 #pragma mark - NSTimer

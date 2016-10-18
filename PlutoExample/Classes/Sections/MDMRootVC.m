@@ -23,11 +23,10 @@
 {
     [super viewDidAppear:animated];
 
-    NSMutableArray *a = [NSMutableArray arrayWithCapacity:1];
-//    [a addObject:nil];
+    self.view.backgroundColor = [UIColor redColor];
     
-    [PlutoLog pltClearCrashBeforeDay:0];
-    
+    NSData *imageData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"png" ofType:@"png"]];
+    NSLog(@"%@", @([imageData plt_getImageFormat]));
 }
 
 @end
