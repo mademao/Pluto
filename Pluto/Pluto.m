@@ -864,7 +864,9 @@ UIImage *PltCreateImage(UIColor *color, CGSize size)
 - (void)pltTimerTargetAction:(NSTimer *)timer
 {
     if (self.target) {
-        [self.target performSelector:self.selector withObject:timer afterDelay:0.0];
+        IMP method = [self.target methodForSelector:self.selector];
+        void (*func)(id, SEL, NSTimer*) = (void *)method;
+        func(self.target, self.selector, timer);
     } else {
         [self.timer invalidate];
         self.timer = nil;
