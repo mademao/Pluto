@@ -147,7 +147,10 @@ void PltAsyncFinish(void(^block)(), void(^finish)())
     if ([platform isEqualToString:@"iPhone7,2"]) return @"iPhone 6";
     if ([platform isEqualToString:@"iPhone8,1"]) return @"iPhone 6s";
     if ([platform isEqualToString:@"iPhone8,2"]) return @"iPhone 6s Plus";
-    if ([platform isEqualToString:@"iPhone8,4"]) return @"iPhone SE";
+    if ([platform isEqualToString:@"iPhone8,3"]) return @"iPhoneSE";
+    if ([platform isEqualToString:@"iPhone8,4"]) return @"iPhoneSE";
+    if ([platform isEqualToString:@"iPhone9,1"]) return @"iPhone7";
+    if ([platform isEqualToString:@"iPhone9,2"]) return @"iPhone7Plus";
     
     
     if ([platform isEqualToString:@"iPod1,1"])   return @"iPod Touch 1G";
@@ -155,6 +158,7 @@ void PltAsyncFinish(void(^block)(), void(^finish)())
     if ([platform isEqualToString:@"iPod3,1"])   return @"iPod Touch 3G";
     if ([platform isEqualToString:@"iPod4,1"])   return @"iPod Touch 4G";
     if ([platform isEqualToString:@"iPod5,1"])   return @"iPod Touch 5G";
+    if ([platform isEqualToString:@"iPod7,1"])   return @"iPod Touch 6G";
     
     if ([platform isEqualToString:@"iPad1,1"])   return @"iPad 1G";
     
