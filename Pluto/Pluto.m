@@ -710,6 +710,10 @@ static char *pltPlaceholderTextViewKey;
  */
 - (void)dealloc
 {
+    if (self.pltPlaceholderTextView) {
+        [self removeObserver:self forKeyPath:@"text"];
+        [self removeObserver:self forKeyPath:@"font"];
+    }
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextViewTextDidChangeNotification object:nil];
 }
 
