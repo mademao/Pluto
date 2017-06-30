@@ -141,7 +141,7 @@ void pltError(id obj)
             while (fileName = [enumerator nextObject]) {
                 NSString *dateString = pltLog_StringWithDate([NSDate dateWithTimeIntervalSinceNow:(long)-day * 24 * 60 * 60], YES);
                 dateString = [dateString stringByAppendingString:@".log"];
-                if ([fileName compare:dateString] == NSOrderedDescending) {
+                if ([fileName compare:dateString] == NSOrderedAscending) {
                     [manager removeItemAtPath:[logName stringByAppendingPathComponent:fileName] error:nil];
                 }
             }
