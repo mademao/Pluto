@@ -77,14 +77,16 @@ extern float PltSystemVersionNumber;
 
 
 #pragma mark - 系统屏幕类型
-/** 是否是6P/ 6sP */
-extern BOOL PltiPhone6P;
-/** 是否是6/6s */
-extern BOOL PltiPhone6;
-/** 是否是 5/5s */
-extern BOOL PltiPhone5;
-/** 是否是 4/4s */
-extern BOOL PltiPhone4s;
+/** 是否是 5.8寸(iPhone X) */
+extern BOOL PltiPhone5_8;
+/** 是否是 5.5寸(iPhone 6P) */
+extern BOOL PltiPhone5_5;
+/** 是否是 4.7寸(iPhone 6) */
+extern BOOL PltiPhone4_7;
+/** 是否是 4.0寸(iPhone 5) */
+extern BOOL PltiPhone4_0;
+/** 是否是 3.5寸(iPhone 4) */
+extern BOOL PltiPhone3_5;
 
 /**
  *  测试一段代码执行需要的时间
@@ -102,7 +104,7 @@ void PltAsync(void(^block)());
  *
  *  @param second 延迟时间
  *  @param queue  代码块执行所在线程
- *  @param ^block 代码块
+ *  @param block 代码块
  */
 void PltAfter(double second, dispatch_queue_t queue, void(^block)());
 /**
@@ -138,7 +140,7 @@ UIColor *PltColorWithHEX(NSString *hexString);
 
 /**
  *  带有 alpha 的 RGB
- *  @param a 0~1.0
+ *  @param alpha 0~1.0
  */
 UIColor *PltColorWithRGBA(CGFloat red, CGFloat green, CGFloat blue, CGFloat alpha);
 
@@ -155,7 +157,6 @@ UIColor *PltColorRandom();
 #pragma mark - UIFont
 /**
  *  创建系统字体的便利构造器
-
  */
 UIFont *PltSystemFontOfSize(CGFloat size);
 

@@ -10,8 +10,7 @@
 
 #pragma mark -时间转换
 static NSDateFormatter *pltLogDateFormatter = nil;
-NSString *pltLog_StringWithDate(NSDate *date, BOOL isFileName)
-{
+NSString *pltLog_StringWithDate(NSDate *date, BOOL isFileName) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         pltLogDateFormatter = [[NSDateFormatter alloc] init];
@@ -35,8 +34,7 @@ static dispatch_queue_t pltLogQueue;
 static NSString *logName;
 static NSString *currentLogName;
 static NSString *crashName;
-void pltWriteLog(NSString *string)
-{
+void pltWriteLog(NSString *string) {
     dispatch_async(pltLogQueue, ^{
         @autoreleasepool {
             NSFileManager *manager = [NSFileManager defaultManager];
@@ -52,8 +50,7 @@ void pltWriteLog(NSString *string)
     });
 }
 
-void plt_UncaughtExceptionHandler(NSException* exception)
-{
+void plt_UncaughtExceptionHandler(NSException* exception) {
     NSString *name = [exception name];
     NSString *reason = [exception reason];
     NSArray *symbols = [exception callStackSymbols]; //异常发生时的调用栈
@@ -82,8 +79,7 @@ void plt_UncaughtExceptionHandler(NSException* exception)
 }
 
 #pragma mark - 自定义输出
-void pltLog(id obj)
-{
+void pltLog(id obj) {
     NSDate *date = [NSDate date];
     NSString *dateStr = pltLog_StringWithDate(date, NO);
     NSString *string = [NSString stringWithFormat:@"➡️%@\n%@\n", dateStr, [obj description]];
@@ -94,8 +90,8 @@ void pltLog(id obj)
     }
     printf("%s", [string UTF8String]);
 }
-void pltRight(id obj)
-{
+
+void pltRight(id obj) {
     NSString *string = [NSString stringWithFormat:@"✅%@\n", [obj description]];
     pltWriteLog(string);
     
@@ -104,8 +100,8 @@ void pltRight(id obj)
     }
     printf("%s", [string UTF8String]);
 }
-void pltWarning(id obj)
-{
+
+void pltWarning(id obj) {
     NSString *string = [NSString stringWithFormat:@"⚠️%@\n", [obj description]];
     pltWriteLog(string);
     
@@ -114,8 +110,8 @@ void pltWarning(id obj)
     }
     printf("%s", [string UTF8String]);
 }
-void pltError(id obj)
-{
+
+void pltError(id obj) {
     NSString *string = [NSString stringWithFormat:@"❌%@\n", [obj description]];
     pltWriteLog(string);
     if (!PltLogEnable) {
@@ -125,13 +121,11 @@ void pltError(id obj)
 }
 
 @implementation PlutoLog
-+ (void)pltLogEnable:(BOOL)enable
-{
++ (void)pltLogEnable:(BOOL)enable {
     PltLogEnable = enable;
 }
 
-+ (void)pltClearLogBeforeDay:(NSUInteger)day
-{
++ (void)pltClearLogBeforeDay:(NSUInteger)day {
     dispatch_async(pltLogQueue, ^{
         @autoreleasepool {
             NSFileManager *manager = [NSFileManager defaultManager];
@@ -149,8 +143,7 @@ void pltError(id obj)
     });
 }
 
-+ (void)pltClearCrashBeforeDay:(NSUInteger)day
-{
++ (void)pltClearCrashBeforeDay:(NSUInteger)day {
     dispatch_async(pltLogQueue, ^{
         @autoreleasepool {
             NSFileManager *manager = [NSFileManager defaultManager];
@@ -184,8 +177,7 @@ void pltError(id obj)
     });
 }
 
-+ (void)initializePlutoLog
-{
++ (void)initializePlutoLog {
     //启动线程
     pltLogQueue = dispatch_queue_create("Pluto.framework.Log", NULL);
     dispatch_async(pltLogQueue, ^{
@@ -209,8 +201,7 @@ void pltError(id obj)
 
 @implementation NSObject (PlutoLog)
 
-+ (void)load
-{
++ (void)load {
     NSSetUncaughtExceptionHandler(&plt_UncaughtExceptionHandler);
     [PlutoLog initializePlutoLog];
 }
