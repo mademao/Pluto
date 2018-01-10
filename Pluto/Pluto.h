@@ -91,14 +91,14 @@ extern BOOL PltiPhone3_5;
 /**
  *  测试一段代码执行需要的时间
  */
-void pltGetCodeExecutionTime(void(^CodeNeedExecution)());
+void pltGetCodeExecutionTime(void(^CodeNeedExecution)(void));
 
 
 #pragma mark - GCD
 /**
  *  启动一个线程来执行代码块
  */
-void PltAsync(void(^block)());
+void PltAsync(void(^block)(void));
 /**
  *  延迟执行代码块，默认主线程执行
  *
@@ -106,15 +106,15 @@ void PltAsync(void(^block)());
  *  @param queue  代码块执行所在线程
  *  @param block 代码块
  */
-void PltAfter(double second, dispatch_queue_t queue, void(^block)());
+void PltAfter(double second, dispatch_queue_t queue, void(^block)(void));
 /**
  *  多线程执行完之后，需要在主线程中执行代码块
  */
-void PltLast(void(^block)());
+void PltLast(void(^block)(void));
 /**
  *  启动一个线程来执行代码块，执行结束后在主线程执行代码块
  */
-void PltAsyncFinish(void(^block)(), void(^finish)());
+void PltAsyncFinish(void(^block)(void), void(^finish)(void));
 
 
 #pragma mark - Pluto
@@ -152,7 +152,7 @@ UIColor *PltColorWithRGB(CGFloat red, CGFloat green, CGFloat blue);
 /**
  *  创建随机色
  */
-UIColor *PltColorRandom();
+UIColor *PltColorRandom(void);
 
 #pragma mark - UIFont
 /**

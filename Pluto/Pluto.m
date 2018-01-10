@@ -51,7 +51,7 @@ BOOL PltiPhone3_5;
 
 
 static double pltThen, pltEnd;
-void pltGetCodeExecutionTime(void(^CodeNeedExecution)()) {
+void pltGetCodeExecutionTime(void(^CodeNeedExecution)(void)) {
     pltThen = CFAbsoluteTimeGetCurrent();
     CodeNeedExecution();
     pltEnd = CFAbsoluteTimeGetCurrent();
@@ -59,23 +59,23 @@ void pltGetCodeExecutionTime(void(^CodeNeedExecution)()) {
 }
 
 #pragma mark - GCD
-void PltAsync(void(^block)()) {
+void PltAsync(void(^block)(void)) {
     dispatch_queue_t queue = dispatch_queue_create("Pluto.framework.Async", nil);
     dispatch_async(queue, block);
 }
 
-void PltAfter(double second, dispatch_queue_t queue, void(^block)()) {
+void PltAfter(double second, dispatch_queue_t queue, void(^block)(void)) {
     if (!queue) {
         queue = dispatch_get_main_queue();
     }
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(second * NSEC_PER_SEC)), dispatch_get_main_queue(), block);
 }
 
-void PltLast(void(^block)()) {
+void PltLast(void(^block)(void)) {
     dispatch_async(dispatch_get_main_queue(), block);
 }
 
-void PltAsyncFinish(void(^block)(), void(^finish)()) {
+void PltAsyncFinish(void(^block)(void), void(^finish)(void)) {
     dispatch_queue_t queue = dispatch_queue_create("Pluto.framework.AsyncFinish", nil);
     dispatch_async(queue, ^{
         block();
